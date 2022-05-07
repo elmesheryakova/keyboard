@@ -1,9 +1,1 @@
 node_modules
-src
-.babelrc
-.eslintrc
-.gitignore
-index.html
-packege-lock.json
-packege.json
-webpack.config.js
