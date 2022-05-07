@@ -1,7 +1,10 @@
 .keyboard {
   display: block;
+  margin: auto;
+  width: 930px;
   border: 2px solid #000;
   padding: 5px;
+
   &::after {
     content: "";
     display: block;
@@ -18,9 +21,36 @@
   &.active {
     background-color: blue;
   }
+  &[data-key="F4"],
+  &[data-key="F8"],
+  &[data-key="Escape"] {
+    margin-right: 34px;
+  }
+
+  &[data-key="Tab"] {
+    width: 80px;
+  }
+  &[data-key="CapsLock"] {
+    width: 90px;
+  }
+  &[data-key="Backspace"] {
+    width: 80px;
+  }
+  &[data-key="Enter"] {
+    width: 105px;
+  }
+  &[data-key="Shift"] {
+    width: 129px;
+  }
+  &[data-key=" "] {
+    width: 592px;
+  }
 }
-.clearfix {
+.textarea {
+  resize: none;
+  width: 930px;
+  min-height: 200px;
+  height: auto;
+  margin: 0 auto;
   display: block;
-  width: 100%;
-  clear: both;
 }

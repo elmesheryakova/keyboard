@@ -1,13 +1,14 @@
 export default class Keys {
-  constructor({ charcode }) {
-    this.charcode = charcode;
+  constructor({ key }) {
+    this.key = key;
   }
 
   createdKeys() {
     const key = document.createElement('div');
     key.classList.add('key');
+    key.setAttribute('data-key', this.key);
     key.innerHTML = `
-    ${String.fromCharCode(this.charcode)}
+    ${this.key}
     `;
 
     return key;
