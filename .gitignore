@@ -1,2 +1,9 @@
 node_modules
-dist
+src
+.babelrc
+.eslintrc
+.gitignore
+index.html
+packege-lock.json
+packege.json
+webpack.config.js
