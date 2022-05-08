@@ -4,6 +4,17 @@ import eng from './modules/symbols';
 import rus from './modules/ru-symbols';
 import Keys from './modules/Keys';
 
+const image = require('./assets/image.jpg');
+
+const metaImg = () => {
+  const img = document.createElement('div');
+  img.classList.add('img');
+  img.innerHTML = `<img src="${image}" alt='img'>`;
+  document.body.append(img);
+  setTimeout(() => {
+    img.style.display = 'none';
+  }, 2000);
+};
 const createTemplate = () => {
   const textOS = document.createElement('div');
   textOS.classList.add('textOS');
@@ -59,10 +70,21 @@ const capsClick = (ls) => {
     }
   }
 };
+const localStorageSave = () => {
+  if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'en');
+  if (localStorage.getItem('lang') === 'ru') {
+    localStorage.setItem('lang', 'en');
+    window.location.reload();
+  } else if (localStorage.getItem('lang') === 'en') {
+    localStorage.setItem('lang', 'ru');
+    window.location.reload();
+  }
+};
 document.addEventListener('DOMContentLoaded', () => {
   if (eng) {
     renderKeys();
   }
+
   createTemplate();
   createTextarea().focus();
   const text = document.querySelector('.textarea');
@@ -115,13 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.code === 'AltLeft' && flagShift) {
       flagShift = false;
 
-      if (localStorage.getItem('lang') === 'ru') {
-        localStorage.setItem('lang', 'en');
-        window.location.reload();
-      } else if (localStorage.getItem('lang') === 'en') {
-        localStorage.setItem('lang', 'ru');
-        window.location.reload();
-      }
+      localStorageSave();
     }
   });
 
@@ -261,6 +277,9 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('caps', 'ok');
           capsClick(localStorage.getItem('caps'));
         }
+      }
+      if (e.target.dataset.key === 'MetaLeft') {
+        metaImg();
       }
     }
   });
