@@ -4,6 +4,17 @@ import eng from './modules/symbols';
 import rus from './modules/ru-symbols';
 import Keys from './modules/Keys';
 
+const createTemplate = () => {
+  const textOS = document.createElement('div');
+  textOS.classList.add('textOS');
+  textOS.textContent = 'Клавиатура создана в операционной системе Windows';
+  document.body.append(textOS);
+
+  const textLang = document.createElement('div');
+  textLang.classList.add('textLang');
+  textLang.innerHTML = 'Переключения языка происходит клавишами <span> ShiftLeft + AltLeft </span>';
+  document.body.append(textLang);
+};
 const createTextarea = () => {
   const textArea = document.createElement('textarea');
   textArea.classList.add('textarea');
@@ -38,15 +49,25 @@ const renderKeys = () => {
 
   wrapper.append(keyContainer);
 };
-
+const capsClick = (ls) => {
+  const elems = document.querySelectorAll('[data-caps = ok');
+  for (let i = 0; i < elems.length; i += 1) {
+    if (ls === 'ok') {
+      elems[i].textContent = elems[i].textContent.trim().toUpperCase();
+    } else {
+      elems[i].textContent = elems[i].textContent.trim().toLowerCase();
+    }
+  }
+};
 document.addEventListener('DOMContentLoaded', () => {
   if (eng) {
     renderKeys();
   }
-
+  createTemplate();
   createTextarea().focus();
   const text = document.querySelector('.textarea');
   const keys = document.querySelectorAll('.key');
+
   if (text) {
     text.value = localStorage.getItem('text') || '';
     text.addEventListener('input', () => {
@@ -78,18 +99,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-  let flag = false;
+
+  let flagShift = false;
   document.addEventListener('keydown', (e) => {
     if (keys) {
       keys.forEach((el) => {
         el.classList.remove('active');
       });
     }
-    document.querySelector(`[data-key = ${e.code}]`).classList.add('active');
+    if (document.querySelector(`[data-key = ${e.code}]`)) {
+      document.querySelector(`[data-key = ${e.code}]`).classList.add('active');
+    }
 
-    if (e.code === 'ShiftLeft') flag = true;
-    if (e.code === 'AltLeft' && flag) {
-      flag = false;
+    if (e.code === 'ShiftLeft') flagShift = true;
+    if (e.code === 'AltLeft' && flagShift) {
+      flagShift = false;
 
       if (localStorage.getItem('lang') === 'ru') {
         localStorage.setItem('lang', 'en');
@@ -100,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
   document.addEventListener('mousedown', (e) => {
     e.preventDefault();
     localStorage.setItem('text', text.value);
@@ -228,6 +253,20 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
       }
+      if (e.target.dataset.key === 'CapsLock') {
+        if (localStorage.getItem('caps') === 'ok') {
+          localStorage.removeItem('caps');
+          capsClick(localStorage.getItem('caps'));
+        } else {
+          localStorage.setItem('caps', 'ok');
+          capsClick(localStorage.getItem('caps'));
+        }
+      }
     }
   });
+  setInterval(() => {
+    keys.forEach((elem) => {
+      elem.classList.remove('active');
+    });
+  }, 300);
 });
