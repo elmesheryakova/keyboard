@@ -287,5 +287,5 @@ document.addEventListener('DOMContentLoaded', () => {
     keys.forEach((elem) => {
       elem.classList.remove('active');
     });
-  }, 500);
+  }, 300);
 });
