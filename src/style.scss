@@ -1,7 +1,15 @@
+
+body {
+  background-color: #343434;
+  padding-top: 20px;
+}
 .keyboard {
   display: block;
+  margin: auto;
+  width: 981px;
   border: 2px solid #000;
   padding: 5px;
+  background-color: rgb(247 251 255 / 56%);
   &::after {
     content: "";
     display: block;
@@ -18,9 +26,92 @@
   &.active {
     background-color: blue;
   }
+
+  background: rgba($color: #fff, $alpha: 0.7);
+  border: 1px solid #343434;
+  margin: 3px;
+  padding: 3px;
+  float: left;
+  cursor: pointer;
+  -webkit-box-shadow: -5px -5px 5px -5px rgba(14, 29, 41, 0.6) inset;
+  -moz-box-shadow: -5px -5px 5px -5px rgba(14, 29, 41, 0.6) inset;
+  box-shadow: -5px -5px 5px -5px rgba(14, 29, 41, 0.6) inset;
+  &.active {
+    background-color: blue;
+  }
+  &:hover {
+    -webkit-box-shadow: 0px 5px 10px 2px rgba(14, 29, 41, 0.2) inset;
+    -moz-box-shadow: 0px 5px 10px 2px rgba(14, 29, 41, 0.2) inset;
+    box-shadow: 0px 5px 10px 2px rgba(14, 29, 41, 0.2) inset;
+  }
+  &[data-key="F4"],
+  &[data-key="F8"],
+  &[data-key="Escape"] {
+    margin-right: 34px;
+  }
+
+  &[data-key="Tab"] {
+    width: 70px;
+  }
+  &[data-key="CapsLock"] {
+    width: 115px;
+  }
+  &[data-key="Backspace"] {
+    width: 135px;
+  }
+  &[data-key="Enter"] {
+    width: 133px;
+  }
+  &[data-key="ShiftLeft"] {
+    width: 130px;
+  }
+  &[data-key="ShiftRight"] {
+    width: 118px;
+  }
+  &[data-key="ControlRight"] {
+    width: 54px;
+  }
+  &[data-key="Space"] {
+    width: 450px;
+  }
 }
-.clearfix {
+.textarea {
+  resize: none;
+  width: 960px;
+  min-height: 300px;
+  height: auto;
+  margin: 0 auto;
   display: block;
+  background-color: #07025b;
+  color: green;
+  font-size: 25px;
+  padding: 5px 15px;
+  -webkit-box-shadow: -4px -24px 44px 56px rgba(29, 143, 231, 0.56);
+  -moz-box-shadow: -4px -24px 44px 56px rgba(29, 143, 231, 0.56);
+  box-shadow: -4px -24px 44px 56px rgba(29, 143, 231, 0.56);
+}
+.textOS,
+.textLang {
+  color: #fff;
+  text-align: center;
+  font-size: 35px;
+  padding-top: 20px;
+  span {
+    color: #07025b;
+    font-weight: bold;
+  }
+}
+.img {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  clear: both;
+  height: 100%;
+  background-color: #343434;
+  img {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    background-color: transparent;
+  }
 }
