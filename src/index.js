@@ -47,7 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
   createTextarea().focus();
   const text = document.querySelector('.textarea');
   const keys = document.querySelectorAll('.key');
-
+  if (text) {
+    text.value = localStorage.getItem('text') || '';
+    text.addEventListener('input', () => {
+      localStorage.setItem('text', text.value);
+    });
+  }
   keys.forEach((el) => {
     el.addEventListener('click', (e) => {
       if (e !== null && e.target instanceof HTMLElement) {
@@ -80,26 +85,24 @@ document.addEventListener('DOMContentLoaded', () => {
         el.classList.remove('active');
       });
     }
-
     document.querySelector(`[data-key = ${e.code}]`).classList.add('active');
 
     if (e.code === 'ShiftLeft') flag = true;
     if (e.code === 'AltLeft' && flag) {
       flag = false;
+
       if (localStorage.getItem('lang') === 'ru') {
         localStorage.setItem('lang', 'en');
-        // renderKeys();
-        // console.log(e);
-        // window.location.reload();
+        window.location.reload();
       } else if (localStorage.getItem('lang') === 'en') {
         localStorage.setItem('lang', 'ru');
-        // renderKeys();
-        // window.location.reload();
+        window.location.reload();
       }
     }
   });
   document.addEventListener('mousedown', (e) => {
     e.preventDefault();
+    localStorage.setItem('text', text.value);
 
     if (e !== null && e.target instanceof HTMLElement) {
       if (e.target.dataset.key === 'Space') {
