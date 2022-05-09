@@ -1,4 +1,3 @@
-// @ts-nocheck
 import './style.scss';
 import eng from './modules/symbols';
 import rus from './modules/ru-symbols';
@@ -80,6 +79,7 @@ const localStorageSave = () => {
     window.location.reload();
   }
 };
+
 document.addEventListener('DOMContentLoaded', () => {
   if (eng) {
     renderKeys();
@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   let flagShift = false;
+  const shifts = document.querySelectorAll('[data-shift]');
   document.addEventListener('keydown', (e) => {
     if (keys) {
       keys.forEach((el) => {
@@ -139,13 +140,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
       localStorageSave();
     }
-  });
 
+    if (shifts) {
+      for (let i = 0; i < shifts.length; i += 1) {
+        if (flagShift) {
+          shifts[i].innerHTML = shifts[i].dataset.shift;
+        }
+      }
+    }
+  });
+  document.addEventListener('keyup', (e) => {
+    if (e.code === 'ShiftLeft' && flagShift) {
+      flagShift = false;
+      window.location.reload();
+    }
+  });
   document.addEventListener('mousedown', (e) => {
     e.preventDefault();
     localStorage.setItem('text', text.value);
 
     if (e !== null && e.target instanceof HTMLElement) {
+      if (e.target.dataset.key === 'ShiftLeft') flagShift = true;
+      if (e.target.dataset.key === 'AltLeft' && flagShift) {
+        flagShift = false;
+        localStorageSave();
+      }
+
       if (e.target.dataset.key === 'Space') {
         const start = text.selectionStart;
         const end = text.selectionEnd;
@@ -278,11 +298,13 @@ document.addEventListener('DOMContentLoaded', () => {
           capsClick(localStorage.getItem('caps'));
         }
       }
+
       if (e.target.dataset.key === 'MetaLeft') {
         metaImg();
       }
     }
   });
+
   setInterval(() => {
     keys.forEach((elem) => {
       elem.classList.remove('active');

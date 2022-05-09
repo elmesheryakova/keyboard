@@ -12,109 +12,109 @@ const symbols = [
   { key: '0', code: 'Digit0', valueShift: ')' },
   { key: '-', code: 'Minus', valueShift: '_' },
   { key: '=', code: 'Equal', valueShift: '+' },
-  { key: 'Backspace', code: 'Backspace', valueShift: '' },
-  { key: 'Tab', code: 'Tab', valueShift: '' },
+  { key: 'Backspace', code: 'Backspace' },
+  { key: 'Tab', code: 'Tab' },
   {
-    key: 'q', code: 'KeyQ', valueShift: '', caps: 'ok',
+    key: 'q', code: 'KeyQ', caps: 'ok',
   },
   {
-    key: 'w', code: 'KeyW', valueShift: '', caps: 'ok',
+    key: 'w', code: 'KeyW', caps: 'ok',
   },
   {
-    key: 'e', code: 'KeyE', valueShift: '', caps: 'ok',
+    key: 'e', code: 'KeyE', caps: 'ok',
   },
   {
-    key: 'r', code: 'KeyR', valueShift: '', caps: 'ok',
+    key: 'r', code: 'KeyR', caps: 'ok',
   },
   {
-    key: 't', code: 'KeyT', valueShift: '', caps: 'ok',
+    key: 't', code: 'KeyT', caps: 'ok',
   },
   {
-    key: 'y', code: 'KeyY', valueShift: '', caps: 'ok',
+    key: 'y', code: 'KeyY', caps: 'ok',
   },
   {
-    key: 'u', code: 'KeyU', valueShift: '', caps: 'ok',
+    key: 'u', code: 'KeyU', caps: 'ok',
   },
   {
-    key: 'i', code: 'KeyI', valueShift: '', caps: 'ok',
+    key: 'i', code: 'KeyI', caps: 'ok',
   },
   {
-    key: 'o', code: 'KeyO', valueShift: '', caps: 'ok',
+    key: 'o', code: 'KeyO', caps: 'ok',
   },
   {
-    key: 'p', code: 'KeyP', valueShift: '', caps: 'ok',
+    key: 'p', code: 'KeyP', caps: 'ok',
   },
   { key: '[', code: 'BracketLeft', valueShift: '{' },
   { key: ']', code: 'BracketRight', valueShift: '}' },
   { key: '\\', code: 'Backslash', valueShift: '|' },
   { key: 'Delete', code: 'Delete', valueShift: '' },
-  { key: 'CapsLock', code: 'CapsLock', valueShift: '' },
+  { key: 'CapsLock', code: 'CapsLock' },
   {
-    key: 'a', code: 'KeyA', valueShift: '', caps: 'ok',
+    key: 'a', code: 'KeyA', caps: 'ok',
   },
   {
-    key: 's', code: 'KeyS', valueShift: '', caps: 'ok',
+    key: 's', code: 'KeyS', caps: 'ok',
   },
   {
-    key: 'd', code: 'KeyD', valueShift: '', caps: 'ok',
+    key: 'd', code: 'KeyD', caps: 'ok',
   },
   {
-    key: 'f', code: 'KeyF', valueShift: '', caps: 'ok',
+    key: 'f', code: 'KeyF', caps: 'ok',
   },
   {
-    key: 'g', code: 'KeyG', valueShift: '', caps: 'ok',
+    key: 'g', code: 'KeyG', caps: 'ok',
   },
   {
-    key: 'h', code: 'KeyH', valueShift: '', caps: 'ok',
+    key: 'h', code: 'KeyH', caps: 'ok',
   },
   {
-    key: 'j', code: 'KeyJ', valueShift: '', caps: 'ok',
+    key: 'j', code: 'KeyJ', caps: 'ok',
   },
   {
-    key: 'k', code: 'KeyK', valueShift: '', caps: 'ok',
+    key: 'k', code: 'KeyK', caps: 'ok',
   },
   {
-    key: 'l', code: 'KeyL', valueShift: '', caps: 'ok',
+    key: 'l', code: 'KeyL', caps: 'ok',
   },
   { key: ';', code: 'Semicolon', valueShift: ':' },
   { key: "'", code: 'Quote', valueShift: '"' },
-  { key: 'Enter', code: 'Enter', valueShift: '' },
-  { key: 'Shift', code: 'ShiftLeft', valueShift: '' },
+  { key: 'Enter', code: 'Enter' },
+  { key: 'Shift', code: 'ShiftLeft' },
   {
-    key: 'z', code: 'KeyZ', valueShift: '', caps: 'ok',
+    key: 'z', code: 'KeyZ', caps: 'ok',
   },
   {
-    key: 'x', code: 'KeyX', valueShift: '', caps: 'ok',
+    key: 'x', code: 'KeyX', caps: 'ok',
   },
   {
-    key: 'c', code: 'KeyC', valueShift: '', caps: 'ok',
+    key: 'c', code: 'KeyC', caps: 'ok',
   },
   {
-    key: 'v', code: 'KeyV', valueShift: '', caps: 'ok',
+    key: 'v', code: 'KeyV', caps: 'ok',
   },
   {
-    key: 'b', code: 'KeyB', valueShift: '', caps: 'ok',
+    key: 'b', code: 'KeyB', caps: 'ok',
   },
   {
-    key: 'n', code: 'KeyN', valueShift: '', caps: 'ok',
+    key: 'n', code: 'KeyN', caps: 'ok',
   },
   {
-    key: 'm', code: 'KeyM', valueShift: '', caps: 'ok',
+    key: 'm', code: 'KeyM', caps: 'ok',
   },
   { key: ',', code: 'Comma', valueShift: '<' },
   { key: '.', code: 'Period', valueShift: '>' },
   { key: '/', code: 'Slash', valueShift: '?' },
-  { key: '↑', code: 'ArrowUp', valueShift: '' },
-  { key: 'Shift', code: 'ShiftRight', valueShift: '' },
-  { key: 'Ctrl', code: 'ControlLeft', valueShift: '' },
-  { key: 'WIN', code: 'MetaLeft', valueShift: '' },
-  { key: 'Alt', code: 'AltLeft', valueShift: '' },
-  { key: ' ', code: 'Space', valueShift: '' },
-  { key: 'Alt', code: 'AltRight', valueShift: '' },
-  { key: '←', code: 'ArrowLeft', valueShift: '' },
-  { key: '↓', code: 'ArrowDown', valueShift: '' },
-  { key: '→', code: 'ArrowRight', valueShift: '' },
-  { key: 'Ctrl', code: 'ControlRight', valueShift: '' },
+  { key: '↑', code: 'ArrowUp' },
+  { key: 'Shift', code: 'ShiftRight' },
+  { key: 'Ctrl', code: 'ControlLeft' },
+  { key: 'WIN', code: 'MetaLeft' },
+  { key: 'Alt', code: 'AltLeft' },
+  { key: ' ', code: 'Space' },
+  { key: 'Alt', code: 'AltRight' },
+  { key: '←', code: 'ArrowLeft' },
+  { key: '↓', code: 'ArrowDown' },
+  { key: '→', code: 'ArrowRight' },
+  { key: 'Ctrl', code: 'ControlRight' },
 
 ];
 export default symbols;
