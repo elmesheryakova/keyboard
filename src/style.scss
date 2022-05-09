@@ -93,6 +93,10 @@ body {
   -webkit-box-shadow: -4px -24px 44px 56px rgba(29, 143, 231, 0.56);
   -moz-box-shadow: -4px -24px 44px 56px rgba(29, 143, 231, 0.56);
   box-shadow: -4px -24px 44px 56px rgba(29, 143, 231, 0.56);
+  &::-webkit-scrollbar {
+    width: 2px;
+    background-color: #07025b;
+  }
 }
 .textOS,
 .textLang {
