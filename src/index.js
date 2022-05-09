@@ -89,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
   createTextarea().focus();
   const text = document.querySelector('.textarea');
   const keys = document.querySelectorAll('.key');
-
+  const keysCaps = document.querySelectorAll('[data-caps]');
+  let flagShift = false;
   if (text) {
     text.value = localStorage.getItem('text') || '';
     text.addEventListener('input', () => {
@@ -109,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (value === 'Delete') value = '';
         if (value === 'CapsLock') value = '';
         if (value === 'Enter') value = '';
-        if (value === 'Shift') value = '';
+        if (value === 'Shift' || value === 'SHIFT') value = '';
         if (value === 'Ctrl') value = '';
         if (value === 'WIN') value = '';
         if (value === 'Alt') value = '';
@@ -117,12 +118,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (value === '←') value = '';
         if (value === '↓') value = '';
         if (value === '→') value = '';
+
+        if (e.target && flagShift) {
+          flagShift = false;
+          keysCaps.forEach((elem) => {
+            if (elem.innerHTML.trim() === value) {
+              value = e.target.innerHTML.trim().toUpperCase();
+            }
+          });
+        }
         text.value += value;
       }
     });
   });
-
-  let flagShift = false;
+  let flagLang = false;
   const shifts = document.querySelectorAll('[data-shift]');
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Alt') e.preventDefault();
@@ -152,12 +161,12 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelector(`[data-key = ${e.code}]`).classList.add('active');
     }
 
-    if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') flagShift = true;
-    if (e.code === 'AltLeft' && flagShift) {
-      flagShift = false;
+    if (e.code === 'ShiftLeft') flagLang = true;
+    if (e.code === 'AltLeft' && flagLang) {
+      flagLang = false;
       localStorageSave();
     }
-
+    if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') flagShift = true;
     if (shifts) {
       for (let i = 0; i < shifts.length; i += 1) {
         if (flagShift) {
@@ -174,21 +183,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
   document.addEventListener('mousedown', (e) => {
     e.preventDefault();
 
     if (e !== null && e.target instanceof HTMLElement) {
-      if (e.target.dataset.key === 'ShiftLeft') flagShift = true;
-      if (e.target.dataset.key === 'AltLeft' && flagShift) {
-        flagShift = false;
+      if (e.target.dataset.key === 'ShiftLeft') flagLang = true;
+      if (e.target.dataset.key === 'AltLeft' && flagLang) {
+        flagLang = false;
         localStorageSave();
-      }
-      if (e.target && flagShift) {
-        flagShift = false;
-        e.target.innerHTML = e.target.innerHTML.trim().toUpperCase();
-        setTimeout(() => {
-          e.target.innerHTML = e.target.innerHTML.trim().toLowerCase();
-        }, 300);
       }
 
       if (e.target.dataset.key === 'Space') {
