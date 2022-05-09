@@ -11,6 +11,7 @@ export default class Keys {
   createdKeys() {
     const key = document.createElement('div');
     key.classList.add('key');
+    key.setAttribute('data-current', this.key);
     key.setAttribute('data-key', this.code);
     if (this.valueShift) {
       key.setAttribute('data-shift', this.valueShift);

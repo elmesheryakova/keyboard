@@ -125,6 +125,24 @@ document.addEventListener('DOMContentLoaded', () => {
   let flagShift = false;
   const shifts = document.querySelectorAll('[data-shift]');
   document.addEventListener('keydown', (e) => {
+    if (e.key === 'Alt') e.preventDefault();
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const start = text.selectionStart;
+      const end = text.selectionEnd;
+      if (start === end) {
+        text.value = `${text.value.slice(0, start)}\t${text.value.slice(start)}`;
+        text.focus();
+        text.selectionStart = start + 1;
+        text.selectionEnd = start + 1;
+      } else {
+        text.value = `${text.value.slice(0, start)}\t${text.value.slice(end)}`;
+        text.focus();
+        text.selectionStart = start + 1;
+        text.selectionEnd = start + 1;
+      }
+    }
+
     if (keys) {
       keys.forEach((el) => {
         el.classList.remove('active');
@@ -134,10 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelector(`[data-key = ${e.code}]`).classList.add('active');
     }
 
-    if (e.code === 'ShiftLeft') flagShift = true;
+    if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') flagShift = true;
     if (e.code === 'AltLeft' && flagShift) {
       flagShift = false;
-
       localStorageSave();
     }
 
@@ -150,20 +167,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   document.addEventListener('keyup', (e) => {
-    if (e.code === 'ShiftLeft' && flagShift) {
+    if ((e.code === 'ShiftLeft' || e.code === 'ShiftRight') && flagShift) {
       flagShift = false;
-      window.location.reload();
+      for (let i = 0; i < shifts.length; i += 1) {
+        shifts[i].innerHTML = shifts[i].dataset.current;
+      }
     }
   });
   document.addEventListener('mousedown', (e) => {
     e.preventDefault();
-    localStorage.setItem('text', text.value);
 
     if (e !== null && e.target instanceof HTMLElement) {
       if (e.target.dataset.key === 'ShiftLeft') flagShift = true;
       if (e.target.dataset.key === 'AltLeft' && flagShift) {
         flagShift = false;
         localStorageSave();
+      }
+      if (e.target && flagShift) {
+        flagShift = false;
+        e.target.innerHTML = e.target.innerHTML.trim().toUpperCase();
+        setTimeout(() => {
+          e.target.innerHTML = e.target.innerHTML.trim().toLowerCase();
+        }, 300);
       }
 
       if (e.target.dataset.key === 'Space') {
@@ -304,7 +329,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
-
+  document.addEventListener('mousemove', () => {
+    localStorage.setItem('text', text.value);
+  });
   setInterval(() => {
     keys.forEach((elem) => {
       elem.classList.remove('active');
