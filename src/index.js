@@ -2,9 +2,12 @@ import './style.scss';
 import eng from './modules/symbols';
 import rus from './modules/ru-symbols';
 import Keys from './modules/Keys';
+import ruCaps from './modules/ru-Caps';
+import enCaps from './modules/en-Caps';
 
 const image = require('./assets/image.jpg');
 
+let flagShift = false;
 const metaImg = () => {
   const img = document.createElement('div');
   img.classList.add('img');
@@ -36,7 +39,17 @@ const createTextarea = () => {
 const generateKeys = () => {
   const keysArr = [];
   if (localStorage.getItem('lang') === 'ru') {
-    rus.forEach((el) => {
+    if (localStorage.getItem('caps') === 'ok') {
+      ruCaps.forEach((el) => {
+        keysArr.push(new Keys(el));
+      });
+    } else {
+      rus.forEach((el) => {
+        keysArr.push(new Keys(el));
+      });
+    }
+  } else if (localStorage.getItem('caps') === 'ok') {
+    enCaps.forEach((el) => {
       keysArr.push(new Keys(el));
     });
   } else {
@@ -59,16 +72,6 @@ const renderKeys = () => {
 
   wrapper.append(keyContainer);
 };
-const capsClick = (ls) => {
-  const elems = document.querySelectorAll('[data-caps = ok');
-  for (let i = 0; i < elems.length; i += 1) {
-    if (ls === 'ok') {
-      elems[i].textContent = elems[i].textContent.trim().toUpperCase();
-    } else {
-      elems[i].textContent = elems[i].textContent.trim().toLowerCase();
-    }
-  }
-};
 
 const localStorageSave = () => {
   if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'en');
@@ -85,13 +88,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (eng) {
     renderKeys();
   }
-
+  if (localStorage.getItem('caps') === 'ok') {
+    document.querySelector("[data-key = 'CapsLock']").classList.add('active');
+  }
   createTemplate();
   createTextarea().focus();
   const text = document.querySelector('.textarea');
   const keys = document.querySelectorAll('.key');
-  let flagShift = false;
+
   let flagLang = false;
+
   const shifts = document.querySelectorAll('[data-shift]');
   if (text) {
     text.value = localStorage.getItem('text') || '';
@@ -107,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
           elem.classList.remove('active');
         });
         document.querySelector(`[data-key = ${e.target.dataset.key}]`).classList.add('active');
+
         if (value === 'Backspace') value = '';
         if (value === 'Tab') value = '';
         if (value === 'Delete') value = '';
@@ -142,11 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
   const clickBackspace = () => {
-    const cursorPosition = text.selectionStart;
-    if (cursorPosition !== 0) {
-      text.value = `${text.value.slice(0, text.selectionStart - 1)} ${text.value.slice(text.selectionStart, text.value.length)}`;
-      text.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
-    }
+    text.setRangeText('', text.selectionStart - 1, text.selectionEnd);
   };
   const clickSpace = () => {
     const start = text.selectionStart;
@@ -252,28 +255,68 @@ document.addEventListener('DOMContentLoaded', () => {
   const clickCapsLock = () => {
     if (localStorage.getItem('caps') === 'ok') {
       localStorage.removeItem('caps');
-      capsClick(localStorage.getItem('caps'));
+      window.location.reload();
     } else {
       localStorage.setItem('caps', 'ok');
-      capsClick(localStorage.getItem('caps'));
+      window.location.reload();
+    }
+  };
+  const clickShift = () => {
+    if (localStorage.getItem('shift') === 'ok') {
+      localStorage.removeItem('shift');
+    } else {
+      localStorage.setItem('shift', 'ok');
     }
   };
   document.addEventListener('keydown', (e) => {
     e.preventDefault();
+
     if (e.key === 'Alt' || e.key === 'Tab' || e.code === 'Space'
     || e.code === 'Backspace' || e.code === 'Delete' || e.code === 'Enter' || e.code === 'ArrowLeft'
     || e.code === 'ArrowRight' || e.code === 'ArrowUp' || e.code === 'ArrowDown'
     || e.code === 'CapsLock' || e.code === 'MetaLeft' || e.code === 'ShiftLeft' || e.code === 'ShiftRight'
-    || e.code === 'ControlLeft' || e.code === 'ControlRight') {
+    || e.code === 'ControlLeft' || e.code === 'ControlRight' || e.code === 'AltRight') {
       text.value += '';
     } else {
       keys.forEach((el) => {
-        if (e.code === el.dataset.key) {
+        if (e.code === el.dataset.key && e.code !== 'Period' && e.code !== 'Comma' && e.code !== 'Digit7') {
           text.value += el.innerHTML.trim();
         }
       });
     }
-
+    if (e.code === 'Period') {
+      if (localStorage.getItem('lang') === 'en' && flagShift) {
+        text.value += '>';
+      } else if (localStorage.getItem('lang') === 'en') {
+        text.value += '.';
+      } else if (localStorage.getItem('lang') === 'ru' && flagShift) {
+        text.value += 'Ю';
+      } else if (localStorage.getItem('lang') === 'ru') {
+        text.value += 'ю';
+      }
+    }
+    if (e.code === 'Comma') {
+      if (localStorage.getItem('lang') === 'en' && flagShift) {
+        text.value += '<';
+      } else if (localStorage.getItem('lang') === 'en') {
+        text.value += ',';
+      } else if (localStorage.getItem('lang') === 'ru' && flagShift) {
+        text.value += 'Б';
+      } else if (localStorage.getItem('lang') === 'ru') {
+        text.value += 'б';
+      }
+    }
+    if (e.code === 'Digit7') {
+      if (localStorage.getItem('lang') === 'en' && flagShift) {
+        text.value += '&';
+      } else if (localStorage.getItem('lang') === 'en') {
+        text.value += '7';
+      } else if (localStorage.getItem('lang') === 'ru' && flagShift) {
+        text.value += '?';
+      } else if (localStorage.getItem('lang') === 'ru') {
+        text.value += '7';
+      }
+    }
     localStorage.setItem('text', text.value);
     if (e.key === 'Alt') {
       e.preventDefault();
@@ -353,14 +396,23 @@ document.addEventListener('DOMContentLoaded', () => {
         flagLang = false;
         localStorageSave();
       }
+      if ((e.target.dataset.key === 'ShiftLeft' || e.target.dataset.key === 'ShiftRight') && localStorage.getItem('caps' === 'ok')) {
+        for (let i = 0; i < shifts.length; i += 1) {
+          shifts[i].innerHTML = shifts[i].dataset.current;
+        }
+      }
       if (e.target.dataset.key === 'ShiftLeft' || e.target.dataset.key === 'ShiftRight') flagShift = true;
       if (shifts) {
         for (let i = 0; i < shifts.length; i += 1) {
           if (flagShift) {
             shifts[i].innerHTML = shifts[i].dataset.shift;
           }
+          if (localStorage.getItem('caps' === 'ok')) {
+            shifts[i].innerHTML = shifts[i].dataset.current;
+          }
         }
       }
+
       if (e.target.dataset.key === 'Space') {
         clickSpace();
       }
@@ -391,7 +443,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.target.dataset.key === 'CapsLock') {
         clickCapsLock();
       }
-
+      if ((e.target.dataset.key === 'ShiftLeft' || e.target.dataset.key === 'ShiftRight')) {
+        clickShift();
+      }
       if (e.target.dataset.key === 'MetaLeft') {
         metaImg();
       }
@@ -399,6 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.addEventListener('mouseup', () => {
     localStorage.setItem('text', text.value);
+
     if (flagShift) {
       flagShift = false;
       setTimeout(() => {
@@ -413,7 +468,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   setInterval(() => {
     keys.forEach((elem) => {
-      elem.classList.remove('active');
+      if (elem.dataset.current !== 'CapsLock' && localStorage.getItem('caps') === 'ok') {
+        elem.classList.remove('active');
+      }
     });
   }, 500);
 });
