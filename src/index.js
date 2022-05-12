@@ -468,9 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   setInterval(() => {
     keys.forEach((elem) => {
-      if (elem.dataset.current !== 'CapsLock' && localStorage.getItem('caps') === 'ok') {
-        elem.classList.remove('active');
-      }
+      elem.classList.remove('active');
     });
   }, 500);
 });
